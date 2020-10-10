@@ -1,0 +1,21 @@
+{
+  "name": "tob-test",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index-cli.js",
+  "scripts": {
+    "start-cli": "node index-cli.js",
+    "start-web": "webpack-dev-server",
+    "test": "jest"
+  },
+  "author": "N. V. Tribulev <tribulev@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-loader": "^8.1.0",
+    "html-webpack-plugin": "^4.5.0",
+    "jest": "^26.5.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

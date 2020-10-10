@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="my-5">Best Price Service</h1>
+    <div class="row">
+      <div class="col-12">
+        <h3>New Order</h3>
+        <form class="" id="order-form">
+          <div class="form-group">
+            <label for="order-input">Order String (ex.: A;1;0;55;B;100;2;2)</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="order-input" placeholder="Enter String">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Process Order</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <hr class="my-5" />
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Best Buy Price</h3>
+        <small>for the latest instrument</small>
+        <p class="h1 text-success" id='best-buy-price'>—</p>
+        <p id='best-buy-string'></p>
+      </div>
+      <div class="col-md-6">
+        <h3>Best Sell Price</h3>
+        <small>for the latest instrument</small>
+        <p class="h1 text-danger" id='best-sell-price'>—</p>
+        <p id='best-sell-string'></p>
+      </div>
+    </div>
+    <hr class="my-5" />
+    <div class="row">
+      <div class="col-12">
+        <h3>Order History</h3>
+      </div>
+      <div class="col-12">
+        <div>
+          <ul class="list-group" id="history">
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
