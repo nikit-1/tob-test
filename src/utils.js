@@ -14,7 +14,7 @@ exports.parseOrderData = function(str) {
 
 exports.formOutputData = function(data) {
   if (data === null) return null
-  return `${data.instrument_id};${data.side};${data.price};${data.amount}\n`
+  return `${data.instrument_id};${data.side};${data.price};${data.amount}`
 }
 
 exports.ACTIONS = {

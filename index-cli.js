@@ -9,7 +9,7 @@ process.stdin.on('data', function(chunk) {
   let order = parseOrderData(chunk);
   let instrument = instruments[order.instrument_id] = instruments[order.instrument_id] || new Instrument(order.instrument_id)
   let result = instrument.processOrder(order);
-  if (result) process.stdout.write(formOutputData(result))
+  if (result) process.stdout.write(formOutputData(result) + '\n')
 });
 
 process.on('exit', (code) => {
