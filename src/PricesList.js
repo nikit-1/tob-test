@@ -23,15 +23,14 @@ module.exports = class PricesList {
   }
 
   processOrder(order) {
-    let bestPrice = this.getCurrentBestPriceAndAmount()
+    let bestPrice = this._getCurrentBestPriceAndAmount()
 
     let ordersForPrice = this._prices.get(order.price)
 
     if (order.action === ACTIONS.SET_ORDER) {
       if (!ordersForPrice) {
-        this._positions.set(order.price, this._heap.size())
-        this._heap.add(order.price)
-        ordersForPrice = this._prices.set(order.price, new PriceOrders()).get(order.price)
+        this._addPrice(order.price)
+        ordersForPrice = this._prices.get(order.price)
       }
       ordersForPrice.addOrder(order)
     } else if (order.action === ACTIONS.DROP_ORDER) {
@@ -41,19 +40,30 @@ module.exports = class PricesList {
     }
 
     if (ordersForPrice.amount === 0) {
-      this._prices.delete(order.price)
-      const pricePositionInHeap = this._positions.get(order.price)
-      this._heap.delete(pricePositionInHeap)
+      this._removePrice(order.price)
     }
 
-    let newBestPrice = this.getCurrentBestPriceAndAmount();
-    if (bestPrice.price !== newBestPrice.price || bestPrice.amount !== newBestPrice.amount) {
-      return newBestPrice
-    }
-    return null
+    return this._comparePriceAndAmount(bestPrice, this._getCurrentBestPriceAndAmount())
   }
 
-  getCurrentBestPriceAndAmount() {
+  _addPrice(price) {
+    this._positions.set(price, this._heap.size())
+    this._heap.add(price)
+    this._prices.set(price, new PriceOrders())
+  }
+
+  _removePrice(price) {
+    this._prices.delete(price)
+    const pricePositionInHeap = this._positions.get(price)
+    this._heap.delete(pricePositionInHeap)
+  }
+
+  _comparePriceAndAmount(price1, price2) {
+    const hasChanges = !!Object.keys(price1).filter(x => price1[x] !== price2[x]).length
+    return hasChanges ? price2 : null
+  }
+
+  _getCurrentBestPriceAndAmount() {
     let price = this._heap.getPeak()
     if (!price) {
       return {
@@ -62,7 +72,7 @@ module.exports = class PricesList {
       }
     }
     return {
-      price: price, 
+      price: price,
       amount: this._prices.get(price).amount
     }
   }
