@@ -53,9 +53,9 @@ module.exports = class PricesList {
   }
 
   _removePrice(price) {
+    this._heap.delete(this._positions.get(price))
+    this._positions.delete(price)
     this._prices.delete(price)
-    const pricePositionInHeap = this._positions.get(price)
-    this._heap.delete(pricePositionInHeap)
   }
 
   _comparePriceAndAmount(price1, price2) {
