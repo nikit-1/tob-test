@@ -39,7 +39,7 @@ module.exports = class PricesList {
       priceOrders.redeemOrder(order)
     }
 
-    if (ordersForPrice.amount === 0) {
+    if (priceOrders.amount === 0) {
       this._removePrice(order.price)
     }
 
