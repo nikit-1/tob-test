@@ -25,18 +25,18 @@ module.exports = class PricesList {
   processOrder(order) {
     let bestPrice = this._getCurrentBestPriceAndAmount()
 
-    let ordersForPrice = this._prices.get(order.price)
+    let priceOrders = this._prices.get(order.price)
 
     if (order.action === ACTIONS.SET_ORDER) {
-      if (!ordersForPrice) {
+      if (!priceOrders) {
         this._addPrice(order.price)
-        ordersForPrice = this._prices.get(order.price)
+        priceOrders = this._prices.get(order.price)
       }
-      ordersForPrice.addOrder(order)
+      priceOrders.addOrder(order)
     } else if (order.action === ACTIONS.DROP_ORDER) {
-      ordersForPrice.dropOrder(order)
+      priceOrders.dropOrder(order)
     } else {
-      ordersForPrice.redeemOrder(order)
+      priceOrders.redeemOrder(order)
     }
 
     if (ordersForPrice.amount === 0) {
