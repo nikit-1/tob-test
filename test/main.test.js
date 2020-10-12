@@ -25,7 +25,7 @@ describe('Testing Instruments Best Price Service', () => {
     let order = parseOrderData('A;1;0;55;B;100;2;2');
     let instrument = new Instrument(order.instrument_id)
     instrument.processOrder(order);
-    order = parseOrderData('A;1;1;55;B;100;2;2');
+    order = parseOrderData('A;1;1;55;B;100;2;0');
     let result = instrument.processOrder(order);
     expect(formOutputData(result)).toEqual('55;B;0;0');
   })
@@ -34,9 +34,27 @@ describe('Testing Instruments Best Price Service', () => {
     let order = parseOrderData('A;1;0;55;S;100;2;2');
     let instrument = new Instrument(order.instrument_id)
     instrument.processOrder(order);
-    order = parseOrderData('A;1;1;55;S;100;2;2');
+    order = parseOrderData('A;1;1;55;S;100;2;0');
     let result = instrument.processOrder(order);
     expect(formOutputData(result)).toEqual(`55;S;${Number.MAX_SAFE_INTEGER};0`);
+  })
+
+  test(`Order setup and the following partial redeems (equal to total amount) should result in the order completeness`, () => {
+    const INSTRUMENT_ID = 'INSTRUMENT1'
+    let instrument = new Instrument(INSTRUMENT_ID)
+    instrument.processOrder(parseOrderData(`A;1;0;${INSTRUMENT_ID};S;100;5;5`))
+    instrument.processOrder(parseOrderData(`A;1;1;${INSTRUMENT_ID};S;100;2;3`))
+    instrument.processOrder(parseOrderData(`A;1;1;${INSTRUMENT_ID};S;100;1;2`))
+    let result = instrument.processOrder(parseOrderData(`A;1;1;${INSTRUMENT_ID};S;100;2;0`))
+    expect(formOutputData(result)).toEqual(`${INSTRUMENT_ID};S;${Number.MAX_SAFE_INTEGER};0`);
+  })
+
+  test(`Setting the order on sale with the price bigger than the current should not change the best price`, () => {
+    const INSTRUMENT_ID = 'INSTRUMENT1'
+    let instrument = new Instrument(INSTRUMENT_ID)
+    instrument.processOrder(parseOrderData(`A;1;0;${INSTRUMENT_ID};S;100;5;5`))
+    let result = instrument.processOrder(parseOrderData(`A;1;0;${INSTRUMENT_ID};S;101;2;3`))
+    expect(formOutputData(result)).toEqual(null);
   })
   
 })
